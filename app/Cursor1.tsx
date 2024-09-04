@@ -4,17 +4,7 @@ import { Cursor } from '@/components/Cursor';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export function Cursor1() {
-  const [isHovering, setIsHovering] = useState(false);
-//   const targetRef = useRef<HTMLDivElement>(null);
-
-//   const handlePositionChange = (x: number, y: number) => {
-//     if (targetRef.current) {
-//       const rect = targetRef.current.getBoundingClientRect();
-//       const isInside =
-//         x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-//       setIsHovering(isInside);
-//     }
-//   };
+  const isHovering = false;
 
   return (
     <div className='flex h-[400px] w-full items-center justify-center absolute top-0 left-0 w-full h-full'>
@@ -33,7 +23,6 @@ export function Cursor1() {
           duration: 0.15,
         }}
         className=' text-red-500'
-        // onPositionChange={handlePositionChange}
       >
         <motion.div
           animate={{
