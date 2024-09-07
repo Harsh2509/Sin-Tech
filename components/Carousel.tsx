@@ -6,28 +6,37 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 export function Carousel() {
   const slides = [
     {
-      url: "/s-1.png",
+      url: "/s-1.webp",
+
     },
     {
-      url: "/s-2.png",
+      url: "/s-2.webp",
     },
     {
-      url: "/s-3.png",
+      url: "/s-3.webp",
     },
 
     {
-      url: "/s-4.png",
+      url: "/s-4.webp",
     },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageNumber, setImageNumber] = useState(4);
 
   useEffect(()=>{
+    let time = 5000;
+    
+    // for loading images in the carousel in the first time
+    if(imageNumber >0){
+        time = 800;
+        setImageNumber(imageNumber-1);
+    }
     const interval = setInterval(()=>{
       nextSlide()
-    },5000);
+    },time);
     return ()=> clearInterval(interval)
-  },[currentIndex])
+  },[currentIndex, imageNumber])
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
