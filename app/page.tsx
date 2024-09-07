@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import { TextEffect } from "../components/TextEffect";
 import { Cursor1 } from "./Cursor1";
 import { InView } from "@/components/Inview";
 import { Carousel } from "@/components/Carousel";
@@ -32,16 +31,6 @@ export default function TextEffectWithPreset() {
       </InView>
 
       <MarqueeDemo />
-      <div className="w-screen h-screen flex justify-center items-center">
-        <TextEffect
-          per="word"
-          as="h1"
-          preset="slide"
-          className=" text-4xl text-center"
-        >
-          Sin-Tech Electronics website is coming soon!! Stay tuned!
-        </TextEffect>
-      </div>
       <Cursor1 />
     </div>
   );
