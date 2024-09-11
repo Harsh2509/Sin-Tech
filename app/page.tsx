@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import { Cursor1 } from "./Cursor1";
 import { InView } from "@/components/Inview";
 import { Carousel } from "@/components/Carousel";
 import { MarqueeDemo } from "./Clients";
@@ -31,7 +30,6 @@ export default function TextEffectWithPreset() {
       </InView>
 
       <MarqueeDemo />
-      <Cursor1 />
     </div>
   );
 }

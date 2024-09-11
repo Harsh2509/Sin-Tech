@@ -2,7 +2,7 @@
 import { cn } from "@/lib/utils";
 import Marquee from "@/components/magicui/marquee";
 
-const reviews = [
+const clients = [
   {
     id: 1,
     placeholder: "Punjab National Bank",
@@ -86,8 +86,8 @@ const reviews = [
   },
 ];
 
-const firstRow = reviews.slice(0, reviews.length / 2);
-const secondRow = reviews.slice(reviews.length / 2);
+const firstRow = clients.slice(0, clients.length / 2);
+const secondRow = clients.slice(clients.length / 2);
 
 const ReviewCard = ({
   img,
