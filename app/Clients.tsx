@@ -101,7 +101,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-full h-full cursor-pointer overflow-hidden rounded-xl border p",
+        "relative w-[80px] h-[80px] md:w-full md:h-full cursor-pointer overflow-hidden rounded-xl border p",
         // light styles
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
         // dark styles
@@ -115,7 +115,7 @@ const ReviewCard = ({
 
 export function MarqueeDemo() {
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+    <div className="relative flex h-[40vh] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
       <div className=" text-blue-700 text-4xl mb-4 capitalize font-bold">
         OUR CLIENTS
       </div>
@@ -129,8 +129,8 @@ export function MarqueeDemo() {
           <ReviewCard key={icon.id} {...icon} />
         ))}
       </Marquee>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-[10vw] lg:w-1/3 bg-gradient-to-r from-white dark:from-background"></div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-[10vw] lg:w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
     </div>
   );
 }
