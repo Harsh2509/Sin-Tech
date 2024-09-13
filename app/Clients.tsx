@@ -101,7 +101,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative w-[80px] h-[80px] md:w-full md:h-full cursor-pointer overflow-hidden rounded-xl border p",
+        "relative w-[70px] h-[70px] md:w-full md:h-full cursor-pointer overflow-hidden rounded-xl border p flex justify-center items-center",
         // light styles
         "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
         // dark styles
@@ -116,7 +116,7 @@ const ReviewCard = ({
 export function MarqueeDemo() {
   return (
     <div className="relative flex h-[40vh] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
-      <div className=" text-blue-700 text-4xl mb-4 capitalize font-bold">
+      <div className=" text-blue-700 text-3xl md:text-4xl mb-4 capitalize font-bold">
         OUR CLIENTS
       </div>
       <Marquee pauseOnHover className="[--duration:20s]">

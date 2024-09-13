@@ -5,7 +5,7 @@ import ShimmerButton from "./magicui/shimmer-button";
 export default async function Navbar() {
   const session = await auth();
   return (
-    <div className="flex justify-between items-center bg-indigo-700 m-0 border-b-2 border-red-500 px-10 py-5 md:py-7">
+    <div className="flex justify-between items-center bg-indigo-700 m-0 border-b-2 border-red-500 px-6 md:px-10 py-5 md:py-7">
       <div className="text-2xl font-bold">
         <Link href="/" className="flex items-center gap-4 md:gap-8">
           <h2 className="text-2xl md:text-5xl font-bold text-white italic bg-blue-500 p-px md:p-2 pr-2 md:pr-4 rounded-lg shadow shadow-red-500 border-b-4 border-l-4 border-red-500 ">
@@ -17,7 +17,7 @@ export default async function Navbar() {
         </Link>
       </div>
 
-      <div className="mr-4">
+      <div className="md:mr-4">
         {session ? (
           <form
             action={async () => {
@@ -42,7 +42,7 @@ export default async function Navbar() {
           >
             <ShimmerButton
               type="submit"
-              className=" font-bold text-sm md:text-lg bg-cyan-600"
+              className=" font-bold text-sm md:text-lg bg-cyan-600 px-2 py-1 md:px-4 md:py-3"
             >
               SignIn
             </ShimmerButton>
