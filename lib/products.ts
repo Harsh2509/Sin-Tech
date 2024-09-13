@@ -11,33 +11,46 @@ interface IProduct {
   image: string;
 }
 
+// This class follows singleton pattern
 export class Products {
-  products: IProduct[] = [
-    {
-      id: 1,
-      name: "100AH Solar UPS Battery",
-      price: 12000,
-      description: "100AH Solar UPS Battery",
-      category: "Ups",
-      image: "/100-ah-solar-ups-battery.jpeg",
-    },
-    {
-      id: 2,
-      name: "Optimuz 12Volt 65AH Battery",
-      price: 10000,
-      description: "Optimuz-12v-65ah",
-      category: "Battery",
-      image: "/Optimuz-12v-65ah.jpeg",
-    },
-    {
-      id: 3,
-      name: "Optimuz 12Volt 100AH Battery",
-      price: 12000,
-      description: "Optimuz-12v-100ah",
-      category: "Battery",
-      image: "/Optimuz-12v-100ah.jpeg",
-    },
-  ];
+  private static instance: Products;
+  private products: IProduct[];
+
+  private constructor() {
+    this.products = [
+      {
+        id: 1,
+        name: "100AH Solar UPS Battery",
+        price: 12000,
+        description: "100AH Solar UPS Battery",
+        category: "Ups",
+        image: "/100-ah-solar-ups-battery.jpeg",
+      },
+      {
+        id: 2,
+        name: "Optimuz 12Volt 65AH Battery",
+        price: 10000,
+        description: "Optimuz-12v-65ah",
+        category: "Battery",
+        image: "/Optimuz-12v-65ah.jpeg",
+      },
+      {
+        id: 3,
+        name: "Optimuz 12Volt 100AH Battery",
+        price: 12000,
+        description: "Optimuz-12v-100ah",
+        category: "Battery",
+        image: "/Optimuz-12v-100ah.jpeg",
+      },
+    ];
+  }
+
+  static getInstance(): Products {
+    if (!Products.instance) {
+      Products.instance = new Products();
+    }
+    return Products.instance;
+  }
 
   all(): IProduct[] {
     return this.products;
