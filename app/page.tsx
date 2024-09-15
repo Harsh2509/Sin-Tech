@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { InView } from "@/components/Inview";
 import { Carousel } from "@/components/Carousel";
 import { MarqueeDemo } from "./Clients";
@@ -8,8 +7,6 @@ export const runtime = "edge";
 export default function TextEffectWithPreset() {
   return (
     <div>
-      <Navbar />
-
       <InView
         variants={{
           hidden: {
