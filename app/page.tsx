@@ -1,12 +1,13 @@
 import { InView } from "@/components/Inview";
 import { Carousel } from "@/components/Carousel";
 import { MarqueeDemo } from "./Clients";
+import TagLine from "@/components/Tagline";
 
 export const runtime = "edge";
 
 export default function TextEffectWithPreset() {
   return (
-    <div>
+    <div className="bg-gradient-to-r from-rose-50 via-purple-10 to-sky-50">
       <InView
         variants={{
           hidden: {
@@ -27,6 +28,8 @@ export default function TextEffectWithPreset() {
       >
         <Carousel />
       </InView>
+
+      <TagLine />
 
       <MarqueeDemo />
     </div>
