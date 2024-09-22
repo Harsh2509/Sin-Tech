@@ -108,7 +108,7 @@ const ReviewCard = ({
         "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]"
       )}
     >
-      <img src={img} alt={placeholder} className="w-20 h-20" />
+      <img src={img} alt={""} className="w-20 h-20" />
     </figure>
   );
 };

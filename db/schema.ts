@@ -1,4 +1,13 @@
-import { index, pgTable, serial, text, varchar } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import {
+  index,
+  integer,
+  pgTable,
+  serial,
+  text,
+  uniqueIndex,
+  varchar,
+} from "drizzle-orm/pg-core";
 
 export const users = pgTable(
   "users",
@@ -10,6 +19,33 @@ export const users = pgTable(
     phone: varchar("phone", { length: 255 }),
   },
   (table) => ({
-    emailIdx: index("email_idx").on(table.email),
+    emailIdx: uniqueIndex("email_idx").on(table.email),
   })
 );
+
+export const carts = pgTable(
+  "carts",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id),
+    productId: integer("product_id").notNull(),
+    quantity: integer("quantity").notNull(),
+  },
+  (table) => ({
+    userIdIdx: index("user_id_idx").on(table.userId),
+    productIdIdx: index("product_id_idx").on(table.productId),
+  })
+);
+
+export const cartsRelation = relations(carts, ({ one }) => ({
+  user: one(users, {
+    fields: [carts.userId],
+    references: [users.id],
+  }),
+}));
+
+export const usersRelations = relations(users, ({ many }) => ({
+  carts: many(carts),
+}));
