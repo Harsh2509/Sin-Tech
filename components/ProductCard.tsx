@@ -12,8 +12,43 @@ import {
 import { IProduct } from "@/lib/products";
 import { CheckIcon, PlusIcon, ShoppingCart } from "lucide-react";
 import { AnimatedSubscribeButton } from "./magicui/animated-subscribe-button";
+import { auth } from "@/auth";
+import { db } from "@/db";
+import { carts, users } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { useActionState } from "react";
 
-export default function ProductCard({ product }: { product: IProduct }) {
+export default async function ProductCard({ product }: { product: IProduct }) {
+  const session = await auth();
+
+  async function addToCart() {
+    "use server";
+    if (!session) {
+      return;
+    }
+    try {
+      const email = session?.user?.email;
+      if (!email) {
+        return;
+      }
+      const productId = product.id;
+      const user = await db
+        .select({ id: users.id })
+        .from(users)
+        .where(eq(users.email, email))
+        .limit(1);
+      if (user.length === 0) {
+        return;
+      }
+      const userId = user[0].id;
+
+      const cart = await db.insert(carts).values({ userId, productId });
+    } catch (e) {
+      console.error(e);
+      return;
+    }
+  }
+
   return (
     <Dialog
       transition={{
@@ -66,23 +101,10 @@ export default function ProductCard({ product }: { product: IProduct }) {
           <div className="p-6">
             <DialogTitle className="text-2xl text-zinc-950 dark:text-zinc-50 ">
               {product.name}
-              <AnimatedSubscribeButton
-                buttonColor="#000000"
-                buttonTextColor="#ffffff"
-                subscribeStatus={false}
-                initialText={
-                  <span className="group inline-flex items-center text-lg">
-                    Add to cart
-                    <ShoppingCart className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                }
-                changeText={
-                  <span className="group inline-flex items-center text-lg">
-                    <CheckIcon className="mr-2 h-4 w-4" />
-                    Added to cart
-                  </span>
-                }
-              />
+              <button type="submit" onClick={addToCart}>
+                {" "}
+                Add to cart{" "}
+              </button>
             </DialogTitle>
             <DialogSubtitle className="text-zinc-700 dark:text-zinc-400">
               {product.shortDescription}

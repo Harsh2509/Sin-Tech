@@ -31,7 +31,7 @@ export const carts = pgTable(
       .notNull()
       .references(() => users.id),
     productId: integer("product_id").notNull(),
-    quantity: integer("quantity").notNull(),
+    quantity: integer("quantity").default(1),
   },
   (table) => ({
     userIdIdx: index("user_id_idx").on(table.userId),

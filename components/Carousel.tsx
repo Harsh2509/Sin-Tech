@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { RxDotFilled } from "react-icons/rx";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 
 export function Carousel() {
   const slides = [
     {
       url: "/s-1.webp",
-
     },
     {
       url: "/s-2.webp",
@@ -24,19 +22,19 @@ export function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageNumber, setImageNumber] = useState(4);
 
-  useEffect(()=>{
+  useEffect(() => {
     let time = 5000;
-    
+
     // for loading images in the carousel in the first time
-    if(imageNumber >0){
-        time = 800;
-        setImageNumber(imageNumber-1);
+    if (imageNumber > 0) {
+      time = 800;
+      setImageNumber(imageNumber - 1);
     }
-    const interval = setInterval(()=>{
-      nextSlide()
-    },time);
-    return ()=> clearInterval(interval)
-  },[currentIndex, imageNumber])
+    const interval = setInterval(() => {
+      nextSlide();
+    }, time);
+    return () => clearInterval(interval);
+  }, [currentIndex, imageNumber]);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -58,7 +56,9 @@ export function Carousel() {
     <div className="h-[20vh] md:h-[40vh] lg:h-[65vh] w-full m-auto py-3 px-2 md:px-4 relative group">
       <div
         style={{
-          backgroundImage: `url(${slides[currentIndex] != undefined && slides[currentIndex].url})`,
+          backgroundImage: `url(${
+            slides[currentIndex] != undefined && slides[currentIndex].url
+          })`,
         }}
         className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
       ></div>
@@ -76,8 +76,7 @@ export function Carousel() {
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
             className="text-2xl cursor-pointer"
-          >
-          </div>
+          ></div>
         ))}
       </div>
     </div>

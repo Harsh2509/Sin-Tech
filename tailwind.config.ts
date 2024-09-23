@@ -59,6 +59,14 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
+          },
+        },
         "spin-around": {
           "0%": {
             transform: "translateZ(0) rotate(0)",
@@ -96,6 +104,7 @@ const config = {
         },
       },
       animation: {
+        meteor: "meteor 5s linear infinite",
         "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
         slide: "slide var(--speed) ease-in-out infinite alternate",
         "accordion-down": "accordion-down 0.2s ease-out",

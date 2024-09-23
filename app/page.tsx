@@ -28,7 +28,6 @@ export default function TextEffectWithPreset() {
       >
         <Carousel />
       </InView>
-
       <TagLine />
 
       <MarqueeDemo />
