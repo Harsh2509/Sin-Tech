@@ -11,6 +11,7 @@ export interface IProduct {
   category: Category;
   image: string;
   alt: string;
+  rating: { rate: number; count: number };
 }
 
 // This class follows singleton pattern
@@ -30,6 +31,7 @@ export class Products {
         category: "Ups",
         image: "/100-ah-solar-ups-battery.jpeg",
         alt: "100AH Solar UPS Battery",
+        rating: { rate: 4, count: 10 },
       },
       {
         id: 2,
@@ -41,6 +43,7 @@ export class Products {
         category: "Battery",
         image: "/Optimuz-12v-65ah.jpeg",
         alt: "Optimuz 12Volt 65AH Battery",
+        rating: { rate: 5, count: 5 },
       },
       {
         id: 3,
@@ -52,6 +55,7 @@ export class Products {
         category: "Battery",
         image: "/Optimuz-12v-100ah.jpeg",
         alt: "Optimuz 12Volt 100AH Battery",
+        rating: { rate: 4, count: 8 },
       },
     ];
   }
