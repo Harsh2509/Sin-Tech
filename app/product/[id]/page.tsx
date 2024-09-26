@@ -21,16 +21,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   const session = await auth();
 
   return (
-    <div className="flex flex-col md:flex-row max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="flex flex-col md:flex-row md:w-[50%] max-w-[80%]  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
       {/* Product Image */}
-      <div className="md:w-1/2">
-        <img
-          src={image}
-          alt={alt}
-          width={500}
-          height={500}
-          className="object-cover w-full h-full"
-        />
+      <div className="w-full">
+        <img src={image} alt={alt} className="object-cover w-full h-full" />
       </div>
 
       {/* Product Details */}
@@ -74,7 +68,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           >
             <button
               type="submit"
-              className="flex justify-center gap-9 md:gap-6 mt-9 flex-wrap items-center"
+              className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-md w-full"
             >
               Add to Cart
             </button>

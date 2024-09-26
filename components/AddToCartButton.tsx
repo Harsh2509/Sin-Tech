@@ -35,7 +35,7 @@ export function AddToCartButton({
   return (
     <button
       onClick={handleAddToCart}
-      className={`mt-6 bg-blue-600 text-white px-4 py-2 rounded-md ${
+      className={`mt-6 bg-blue-600 text-white px-4 py-2 rounded-md w-full ${
         isAdded ? "opacity-50 cursor-not-allowed" : ""
       }`}
       disabled={isAdded}
