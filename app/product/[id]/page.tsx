@@ -1,13 +1,14 @@
-import { auth } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { Products } from "@/lib/products";
 import React, { ReactEventHandler } from "react";
 
-
+export const runtime = "edge";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const products = Products.getInstance();
   const {
+    id,
     name,
     price,
     shortDescription,
@@ -17,8 +18,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     alt,
     rating,
   } = products.find(parseInt(params.id));
-
-  
+  const session = await auth();
 
   return (
     <div className="flex flex-col md:flex-row max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
@@ -60,7 +60,26 @@ export default async function Page({ params }: { params: { id: string } }) {
         <p className="text-gray-600 mt-4">{description}</p>
 
         {/* Add to Cart Button */}
-         <AddToCartButton /> 
+        {session ? (
+          <AddToCartButton
+            email={session?.user?.email as string}
+            productId={id}
+          />
+        ) : (
+          <form
+            action={async () => {
+              "use server";
+              await signIn("google");
+            }}
+          >
+            <button
+              type="submit"
+              className="flex justify-center gap-9 md:gap-6 mt-9 flex-wrap items-center"
+            >
+              Add to Cart
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
