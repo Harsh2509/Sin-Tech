@@ -117,7 +117,7 @@ export function MarqueeDemo() {
   return (
     <div className="relative flex h-[40vh] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-inherit md:shadow-xl">
       <div className=" text-blue-700 text-2xl md:text-4xl mb-4 capitalize font-bold">
-        OUR CLIENTS
+        Trusted by over 1000+ clients
       </div>
       <Marquee pauseOnHover className="[--duration:20s]">
         {firstRow.map((icon) => (

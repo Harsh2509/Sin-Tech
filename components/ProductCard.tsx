@@ -72,7 +72,7 @@ export default async function ProductCard({ product }: { product: IProduct }) {
 
               <div className="mt-4 flex justify-center md:justify-start">
                 <button className="bg-green-600 text-white px-6 py-2 rounded-md text-sm md:text-base cursor-pointer hover:bg-green-500 transition-all focus:outline-none focus:ring focus:ring-green-400">
-                  Add to Cart
+                  See more
                 </button>
               </div>
             </div>

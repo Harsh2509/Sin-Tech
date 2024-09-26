@@ -17,7 +17,7 @@ export default function TagLine() {
     >
       <div className="flex flex-col md:flex-row items-center md:items-center space-y-4 md:space-y-0 md:space-x-4 justify-between">
         <header>
-          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold leading-tight">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold leading-tight text-center md:text-left">
             Explore affordable <br className="hidden md:block" />& reliable
             power solutions including{" "}
             <WordRotate
