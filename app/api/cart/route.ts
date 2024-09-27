@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { carts, users } from "@/db/schema";
 import { Products } from "@/lib/products";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 export const runtime = "edge";
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
     const cart = await db
       .select()
       .from(carts)
-      .where(eq(carts.userId, userId))
+      .where(and(eq(carts.userId, userId), eq(carts.productId, productId)))
       .limit(1);
     if (cart.length === 0) {
       return new Response(JSON.stringify({ found: false }));

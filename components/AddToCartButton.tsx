@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Spinner } from "./Spinner";
 
 export function AddToCartButton({
   email,
@@ -11,6 +12,7 @@ export function AddToCartButton({
   productId: number;
 }) {
   const [isAdded, setIsAdded] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     axios
       .get("/api/cart", {
@@ -21,6 +23,7 @@ export function AddToCartButton({
       })
       .then((res) => {
         setIsAdded(res.data.found);
+        setIsLoading(false);
       });
   }, []);
 
@@ -35,12 +38,13 @@ export function AddToCartButton({
   return (
     <button
       onClick={handleAddToCart}
-      className={`mt-6 bg-blue-600 text-white px-4 py-2 rounded-md w-full ${
+      className={`relative mt-6 bg-blue-600 text-white px-4 py-2 rounded-md w-full ${
         isAdded ? "opacity-50 cursor-not-allowed" : ""
       }`}
       disabled={isAdded}
     >
-      {isAdded ? "Added to Cart" : "Add to Cart"}
+      {isAdded && !isLoading ? "Added to Cart" : "Add to Cart"}
+      {isLoading && <Spinner className="absolute z-10 top-1/3 h-4 w-4" />}
     </button>
   );
 }
