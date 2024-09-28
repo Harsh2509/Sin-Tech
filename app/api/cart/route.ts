@@ -1,10 +1,11 @@
+export const runtime = "edge";
+
 import { db } from "@/db";
 import { carts, users } from "@/db/schema";
 import { Products } from "@/lib/products";
 import { and, eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { z } from "zod";
-export const runtime = "edge";
 
 const bodySchema = z.object({
   email: z.string().email(),
