@@ -1,6 +1,7 @@
 import { IProduct } from "@/lib/products";
 import axios from "axios";
 import { auth } from "@/auth";
+import Link from "next/link";
 
 export default async function ProductCard({ product }: { product: IProduct }) {
   const session = await auth();
@@ -71,12 +72,12 @@ export default async function ProductCard({ product }: { product: IProduct }) {
               </div>
 
               <div className="mt-4 flex justify-center md:justify-start">
-                <a
+                <Link
                   href={`/product/${product.id}`}
                   className="bg-green-600 text-white px-6 py-2 rounded-md text-sm md:text-base cursor-pointer hover:bg-green-500 transition-all focus:outline-none focus:ring focus:ring-green-400"
                 >
                   See more
-                </a>
+                </Link>
               </div>
             </div>
           </>
