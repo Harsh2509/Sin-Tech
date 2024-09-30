@@ -28,9 +28,10 @@ export function AddToCartButton({
       .catch((e) => {
         console.error("Error occurred: ", e);
         setIsAdded(true);
-        toast.error(
-          "Error occurred while checking cart. Please refresh the page."
-        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        toast.error("Error occurred while checking cart. Please wait...");
       })
       .finally(() => {
         setIsLoading(false);

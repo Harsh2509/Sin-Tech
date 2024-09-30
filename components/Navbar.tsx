@@ -1,6 +1,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import Link from "next/link";
 import ShimmerButton from "./magicui/shimmer-button";
+import { BsCart2 } from "react-icons/bs";
 
 export default async function Navbar() {
   const session = await auth();
@@ -17,7 +18,10 @@ export default async function Navbar() {
         </Link>
       </div>
 
-      <div className="md:mr-4">
+      <div className="md:mr-4 flex items-center gap-10">
+        <Link href="/cart">
+          <BsCart2 className=" text-5xl text-white" />
+        </Link>
         {session ? (
           <form
             action={async () => {
