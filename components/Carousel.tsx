@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
+import { FiChevronDown } from "react-icons/fi";
 
 export function Carousel() {
   const slides = [
@@ -52,32 +53,51 @@ export function Carousel() {
     setCurrentIndex(slideIndex);
   };
 
+  const handleScrollDown = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div className="h-[20vh] md:h-[40vh] lg:h-[65vh] w-full m-auto py-3 px-2 md:px-4 relative group">
+    <div className="flex flex-col gap-10 items-center justify-center">
+      <div className="h-[20vh] md:h-[40vh] lg:h-[65vh] w-full m-auto py-3 px-2 md:px-4 relative group">
+        <div
+          style={{
+            backgroundImage: `url(${
+              slides[currentIndex] != undefined && slides[currentIndex].url
+            })`,
+          }}
+          className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
+        ></div>
+        {/* Left Arrow */}
+        <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+          <BsChevronCompactLeft onClick={prevSlide} size={30} />
+        </div>
+        {/* Right Arrow */}
+        <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+          <BsChevronCompactRight onClick={nextSlide} size={30} />
+        </div>
+        <div className="flex top-4 justify-center py-2">
+          {slides.map((slide, slideIndex) => (
+            <div
+              key={slideIndex}
+              onClick={() => goToSlide(slideIndex)}
+              className="text-2xl cursor-pointer"
+            ></div>
+          ))}
+        </div>
+      </div>
       <div
-        style={{
-          backgroundImage: `url(${
-            slides[currentIndex] != undefined && slides[currentIndex].url
-          })`,
-        }}
-        className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
-      ></div>
-      {/* Left Arrow */}
-      <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-        <BsChevronCompactLeft onClick={prevSlide} size={30} />
-      </div>
-      {/* Right Arrow */}
-      <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-        <BsChevronCompactRight onClick={nextSlide} size={30} />
-      </div>
-      <div className="flex top-4 justify-center py-2">
-        {slides.map((slide, slideIndex) => (
-          <div
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-            className="text-2xl cursor-pointer"
-          ></div>
-        ))}
+        className="flex flex-col items-center cursor-pointer"
+        onClick={handleScrollDown}
+      >
+        <p className="text-gray-600">Scroll Down</p>
+        <FiChevronDown
+          className="animate-bounce text-3xl text-gray-600"
+          style={{ animationDuration: "1.5s" }}
+        />
       </div>
     </div>
   );
