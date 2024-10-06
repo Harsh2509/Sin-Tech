@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: "https://www.sintechelectronic.com",
     images: [
       {
-        url: "/favicon.ico",
+        url: "/ogImage.png",
         width: 800,
         height: 600,
         alt: "Sin-Tech Electronics Logo",
@@ -44,10 +44,62 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const ogImage =
+    Array.isArray(metadata?.openGraph?.images) &&
+    metadata.openGraph.images.length
+      ? (metadata.openGraph.images[0] as {
+          url: string;
+          width: number;
+          height: number;
+          alt: string;
+        }) // Access the first image in the array
+      : (metadata?.openGraph?.images as {
+          url: string;
+          width: number;
+          height: number;
+          alt: string;
+        });
   return (
     <>
       <Head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* Open Graph Meta Tags */}
+        <meta
+          property="og:title"
+          content={metadata?.openGraph?.title as string}
+        />
+        <meta
+          property="og:description"
+          content={metadata?.openGraph?.description}
+        />
+        <meta property="og:url" content={metadata?.openGraph?.url as string} />
+        <meta property="og:type" content={"website"} />
+
+        {ogImage && (
+          <>
+            <meta property="og:image" content={ogImage.url} />
+            <meta
+              property="og:image:width"
+              content={ogImage.width.toString()}
+            />
+            <meta
+              property="og:image:height"
+              content={ogImage.height.toString()}
+            />
+            <meta property="og:image:alt" content={ogImage.alt} />
+          </>
+        )}
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={metadata?.openGraph?.title as string}
+        />
+        <meta
+          name="twitter:description"
+          content={metadata?.openGraph?.description}
+        />
+        {ogImage && <meta name="twitter:image" content={ogImage.url} />}
       </Head>
       <html lang="en">
         <body className={cn(poppins.className)}>

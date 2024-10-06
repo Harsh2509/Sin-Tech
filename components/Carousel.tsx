@@ -90,7 +90,7 @@ export function Carousel() {
         </div>
       </div>
       <div
-        className="flex flex-col items-center cursor-pointer"
+        className="hidden md:flex flex-col items-center cursor-pointer"
         onClick={handleScrollDown}
       >
         <p className="text-gray-600">Scroll Down</p>

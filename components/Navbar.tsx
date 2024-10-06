@@ -8,7 +8,7 @@ export default async function Navbar() {
   return (
     <div className="flex justify-between items-center bg-indigo-700 m-0 border-b-2 border-red-500 px-4 md:px-10 py-4">
       <div className="text-2xl font-bold">
-        <Link href="/" className="flex items-center md:gap-6">
+        <Link href="/" className="flex items-center md:gap-6 gap-3">
           <h2 className="text-2xl md:text-4xl font-bold text-white italic bg-blue-500 p-px md:p-2 pr-2 md:pr-4 rounded-lg shadow shadow-red-500 border-b-4 border-l-4 border-red-500 ">
             SE
           </h2>
