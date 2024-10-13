@@ -1,0 +1,19 @@
+{
+  "name": "sin-server",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "migrate": "drizzle-kit migrate",
+    "generate": "drizzle-kit generate"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.1",
+    "drizzle-orm": "^0.34.1",
+    "hono": "^4.6.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240925.0",
+    "drizzle-kit": "^0.25.0",
+    "wrangler": "^3.79.0"
+  }
+}
