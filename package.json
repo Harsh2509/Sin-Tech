@@ -11,7 +11,8 @@
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
-    "migrate": "drizzle-kit migrate",
+    "migrate:local": "wrangler d1 execute sin-tech --local",
+    "migrate:production": "wrangler d1 execute sin-tech --remote",
     "generate": "drizzle-kit generate"
   },
   "dependencies": {

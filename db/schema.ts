@@ -1,51 +1,54 @@
 import { relations } from "drizzle-orm";
 import {
-  index,
+  sqliteTable,
   integer,
-  pgTable,
-  serial,
   text,
   uniqueIndex,
-  varchar,
-} from "drizzle-orm/pg-core";
+  primaryKey,
+  index,
+} from "drizzle-orm/sqlite-core";
 
-export const users = pgTable(
+// Define the 'users' table for SQLite
+export const users = sqliteTable(
   "users",
   {
-    id: serial("id").primaryKey(),
-    email: varchar("email", { length: 255 }).unique().notNull(),
-    name: varchar("name", { length: 255 }),
+    id: integer("id").primaryKey({ autoIncrement: true }), // SQLite uses integer with autoIncrement for primary keys
+    email: text("email", { length: 255 }).unique().notNull(),
+    name: text("name", { length: 255 }),
     image: text("image"),
-    phone: varchar("phone", { length: 255 }),
+    phone: text("phone", { length: 255 }),
   },
   (table) => ({
-    emailIdx: uniqueIndex("email_idx").on(table.email),
+    emailIdx: uniqueIndex("email_idx").on(table.email), // Define unique index on 'email'
   })
 );
 
-export const carts = pgTable(
+// Define the 'carts' table for SQLite
+export const carts = sqliteTable(
   "carts",
   {
-    id: serial("id").primaryKey(),
+    id: integer("id").primaryKey({ autoIncrement: true }), // SQLite uses integer with autoIncrement for primary keys
     userId: integer("user_id")
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id), // Reference the 'users' table
     productId: integer("product_id").notNull(),
     quantity: integer("quantity").default(1),
   },
   (table) => ({
-    userIdIdx: index("user_id_idx").on(table.userId),
-    productIdIdx: index("product_id_idx").on(table.productId),
+    userIdIdx: index("user_id_idx").on(table.userId), // Define index on 'user_id'
+    productIdIdx: index("product_id_idx").on(table.productId), // Define index on 'product_id'
   })
 );
 
+// Define relations between 'carts' and 'users'
 export const cartsRelation = relations(carts, ({ one }) => ({
   user: one(users, {
-    fields: [carts.userId],
+    fields: [carts.userId], // Define the foreign key relationship
     references: [users.id],
   }),
 }));
 
+// Define relations between 'users' and 'carts'
 export const usersRelations = relations(users, ({ many }) => ({
   carts: many(carts),
 }));

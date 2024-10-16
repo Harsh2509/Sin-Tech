@@ -85,3 +85,9 @@ pages_build_output_dir = ".vercel/output/static"
 # [[env.production.kv_namespaces]]
 # binding = "MY_KV_NAMESPACE"
 # id = "<PRODUCTION_NAMESPACE_ID>"
+
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "sin-tech"
+database_id = "f17abf69-33d0-46a6-a826-4e619f79b47a"

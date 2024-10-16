@@ -1,12 +1,15 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
-import { db } from "@/db";
+import { createDb } from "@/db";
 import { users } from "@/db/schema";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
   callbacks: {
     async signIn({ user, account, profile }) {
+      const DB = getRequestContext().env.DB;
+      const db = createDb(DB);
       if (account?.provider === "google") {
         try {
           await db

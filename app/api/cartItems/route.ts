@@ -1,8 +1,9 @@
 export const runtime = "edge";
 
-import { db } from "@/db";
+import { createDb } from "@/db";
 import { carts, users } from "@/db/schema";
 import { Products } from "@/lib/products";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 import { and, eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { z } from "zod";
@@ -12,6 +13,8 @@ const bodySchema = z.object({
 });
 
 export async function GET(req: NextRequest) {
+  const DB = getRequestContext().env.DB;
+  const db = createDb(DB);
   const products = Products.getInstance();
   const maxId = products.all().length;
   try {

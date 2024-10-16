@@ -1,8 +1,9 @@
 export const runtime = "edge";
 
-import { db } from "@/db";
+import { createDb } from "@/db";
 import { carts, users } from "@/db/schema";
 import { Products } from "@/lib/products";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 import { and, eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { z } from "zod";
@@ -13,6 +14,8 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const DB = getRequestContext().env.DB;
+  const db = createDb(DB);
   const products = Products.getInstance();
   const maxId = products.all().length;
   try {
@@ -45,6 +48,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const DB = getRequestContext().env.DB;
+  const db = createDb(DB);
   const products = Products.getInstance();
   const maxId = products.all().length;
   try {
@@ -66,7 +71,7 @@ export async function GET(req: NextRequest) {
       .limit(1);
 
     if (user.length === 0) {
-      return;
+      return new Response(JSON.stringify({ found: false }));
     }
 
     const userId = user[0].id;
@@ -81,6 +86,7 @@ export async function GET(req: NextRequest) {
     }
     return new Response(JSON.stringify({ found: true }));
   } catch (e: unknown) {
+    console.error(e);
     return new Response(
       "Error occuring at API endpoint: " + JSON.stringify(e),
       { status: 400 }

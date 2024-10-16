@@ -1,13 +1,16 @@
 import { auth, signIn } from "@/auth";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { db } from "@/db";
+import { createDb } from "@/db";
 import { carts, users } from "@/db/schema";
+import { getRequestContext } from "@cloudflare/next-on-pages";
 import { eq } from "drizzle-orm";
 import { Divide } from "lucide-react";
 import Link from "next/link";
 export const runtime = "edge";
 
 export default async function CartPage() {
+  const DB = getRequestContext().env.DB;
+  const db = createDb(DB);
   const session = await auth();
 
   // Redirect to sign-in if no session
@@ -85,7 +88,7 @@ export default async function CartPage() {
       <div className="container mx-auto p-6">
         <h1 className="text-3xl mb-6">Your Cart</h1>
         <ul>
-          {cart.map((item) => (
+          {cart.map((item: any) => (
             <li key={item.id} className="mb-4">
               <div className="flex items-center justify-between">
                 <span>Product ID: {item.productId}</span>
