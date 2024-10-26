@@ -1,42 +1,25 @@
 import { auth, signIn } from "@/auth";
+import { CartItem } from "@/components/CartItem";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { createDb } from "@/db";
 import { carts, users } from "@/db/schema";
+import { Products } from "@/lib/products";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import { eq } from "drizzle-orm";
-import { Divide } from "lucide-react";
+import { Divide, ShoppingBagIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
+import { BsGoogle } from "react-icons/bs";
 export const runtime = "edge";
 
 export default async function CartPage() {
   const DB = getRequestContext().env.DB;
   const db = createDb(DB);
   const session = await auth();
+  const products = Products.getInstance();
 
   // Redirect to sign-in if no session
   if (!session) {
-    return (
-      <div className="flex items-center justify-center h-[80vh] w-full bg-gray-100">
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-sm w-full">
-          <h1 className="text-2xl font-semibold text-center mb-6">Sign In</h1>
-          <p className="text-gray-600 text-center mb-4">
-            Access the cart by signing in.
-          </p>
-          <form method="post">
-            <button
-              onClick={async (e) => {
-                e.preventDefault();
-                await signIn("google");
-              }}
-              type="submit"
-              className="w-full py-2 mt-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
-            >
-              Sign in with Google
-            </button>
-          </form>
-        </div>
-      </div>
-    );
+    return <SignInMessage message="Access the cart by signing in." />;
   }
 
   // Ensure email exists before proceeding
@@ -54,7 +37,9 @@ export default async function CartPage() {
       .limit(1);
 
     if (!user.length) {
-      return <div>User not found.</div>;
+      return (
+        <SignInMessage message="User not found. Please Signup to proceed." />
+      );
     }
 
     // Fetch cart data
@@ -67,40 +52,61 @@ export default async function CartPage() {
       .from(carts)
       .where(eq(carts.userId, user[0].id));
 
+    const productz = cart.map((item) => {
+      const product = products.find(item.productId);
+      return { ...product, quantity: item.quantity as number };
+    });
+
     if (!cart.length) {
-      return (
-        <div className="h-[70vh] w-screen flex justify-center items-center flex-col">
-          <div className="container mx-auto p-6">
-            <div className="flex items-center justify-center">
-              <Divide size={48} />
-            </div>
-            <p className="text-center mt-6">
-              Your cart is empty. Add some products to get started!
-            </p>
-          </div>
-          <RainbowButton>
-            <Link href="/products">Add a few products</Link>
-          </RainbowButton>
-        </div>
-      );
+      return <EmptyCartMessage />;
     }
-    return (
-      <div className="container mx-auto p-6">
-        <h1 className="text-3xl mb-6">Your Cart</h1>
-        <ul>
-          {cart.map((item: any) => (
-            <li key={item.id} className="mb-4">
-              <div className="flex items-center justify-between">
-                <span>Product ID: {item.productId}</span>
-                <span>Quantity: {item.quantity}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
+    return <CartItem cart={productz} />;
   } catch (error) {
     console.error("Error fetching cart data:", error);
     return <div>Failed to load cart data. Please try again later.</div>;
   }
+}
+
+function EmptyCartMessage() {
+  return (
+    <div className="h-[88vh] w-screen flex justify-center items-center flex-col">
+      <div className="container mx-auto p-6">
+        <div className="flex items-center justify-center">
+          <Divide size={48} />
+        </div>
+        <p className="text-center mt-6">
+          Your cart is empty. Add some products to get started!
+        </p>
+      </div>
+      <RainbowButton>
+        <Link href="/products">Add a few products</Link>
+      </RainbowButton>
+    </div>
+  );
+}
+
+function SignInMessage({ message }: { message: string }) {
+  return (
+    <div className="flex items-center justify-center h-[88vh] w-full bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-md max-w-sm w-full">
+        <h1 className="text-2xl font-semibold text-center mb-6">Sign In</h1>
+        <p className="text-gray-600 text-center mb-4">{message}</p>
+        <form
+          method="post"
+          action={async () => {
+            "use server";
+            await signIn("google");
+          }}
+        >
+          <button
+            type="submit"
+            className="w-full py-2 mt-4 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200 flex justify-center items-center gap-3 md:gap-6"
+          >
+            <BsGoogle />
+            Sign in with Google
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
