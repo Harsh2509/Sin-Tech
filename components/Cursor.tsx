@@ -38,23 +38,18 @@ export const Cursor = () => {
     const deltaMouseX = mouseX - previousX;
     const deltaMouseY = mouseY - previousY;
 
-    // Update previous mouse position for the next frame
     previousMouseRef.current.x = mouseX;
     previousMouseRef.current.y = mouseY;
 
-    // Calculate mouse velocity using Pythagorean theorem and adjust speed
     const mouseVelocity = Math.min(
       Math.sqrt(deltaMouseX ** 2 + deltaMouseY ** 2) * 4,
       150
     );
 
-    // Convert mouse velocity to a value in the range [0, 0.5]
     const scaleValue = (mouseVelocity / 150) * 0.5;
 
-    // Smoothly update the current scale
     scaleRef.current += (scaleValue - scaleRef.current) * speed;
 
-    // Create a transformation string for scaling
     const scaleTransform = `scale(${1 + scaleRef.current}, ${
       1 - scaleRef.current
     })`;
@@ -62,26 +57,23 @@ export const Cursor = () => {
     // ROTATE
     const angle = (Math.atan2(deltaMouseY, deltaMouseX) * 180) / Math.PI;
 
-    // Check for a threshold to reduce shakiness at low mouse velocity
     if (mouseVelocity > 20) {
       currentAngleRef.current = angle;
     }
-
-    // Create a transformation string for rotation
     const rotateTransform = `rotate(${currentAngleRef.current}deg)`;
 
-    // Apply all transformations to the circle element in a specific order: translate -> rotate -> scale
     if (circleElement.current) {
       circleElement.current.style.transform = `${translateTransform} ${rotateTransform} ${scaleTransform}`;
     }
 
-    // Request the next frame to continue the animation
     window.requestAnimationFrame(tick);
   };
 
   useEffect(() => {
-    requestAnimationFrame(tick); // Start the animation loop
+    requestAnimationFrame(tick);
   }, []);
 
-  return <div className="circle" ref={circleElement}></div>;
+  return (
+    <div className="circle invisible md:visible" ref={circleElement}></div>
+  );
 };
