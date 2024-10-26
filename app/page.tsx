@@ -2,6 +2,7 @@ import { InView } from "@/components/Inview";
 import { Carousel } from "@/components/Carousel";
 import { MarqueeDemo } from "./Clients";
 import TagLine from "@/components/Tagline";
+import { Cursor } from "@/components/Cursor";
 
 export const runtime = "edge";
 
@@ -29,8 +30,9 @@ export default function TextEffectWithPreset() {
         <Carousel />
       </InView>
       <TagLine />
-
       <MarqueeDemo />
+
+      <Cursor />
     </div>
   );
 }
