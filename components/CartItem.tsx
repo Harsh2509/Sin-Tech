@@ -1,19 +1,31 @@
 "use client";
 import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { IProduct } from "../lib/products";
+import { useEffect } from "react";
+import useStore from "@/lib/store";
 
 export function CartItem({
   cart,
 }: {
   cart: (IProduct & { quantity: number })[];
 }) {
+  const setQuantity = useStore((state) => state.setQuantity);
+  const items = useStore((state) => state.cartItems);
+  const addItems = useStore((state) => state.addItems);
+
+  useEffect(() => {
+    addItems(cart);
+  }, [cart]);
+
+  useEffect(() => {});
+
   return (
     <div className="container mx-auto p-4 md:p-6">
       <h1 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6">
         Your Cart
       </h1>
       <ul className="space-y-4 md:space-y-6">
-        {cart.map((item) => (
+        {items.map((item) => (
           <li
             key={item.id}
             className="bg-white rounded-lg shadow-lg p-4 md:p-6 flex flex-col md:flex-row items-center md:justify-between space-y-4 md:space-y-0 md:space-x-4"
@@ -53,7 +65,10 @@ export function CartItem({
                   </button>
                   <span className="px-3">{item.quantity}</span>
                   <button
-                    // onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    onClick={() => {
+                      setQuantity(item.id, item.quantity + 1);
+                      console.log(items);
+                    }}
                     className="bg-gray-200 p-1 rounded-full hover:bg-gray-300 transition-colors"
                   >
                     <PlusIcon className="h-4 w-4" />

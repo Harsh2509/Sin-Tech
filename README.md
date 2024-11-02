@@ -1,17 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`c3`](https://developers.cloudflare.com/pages/get-started/c3).
+# Sin-Tech
+
+![GitHub repo size](https://img.shields.io/github/repo-size/Harsh2509/Sin-Tech)
+![GitHub stars](https://img.shields.io/github/stars/Harsh2509/Sin-Tech?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Harsh2509/Sin-Tech?style=social)
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run the DNS.js project:
+
+### 1. Clone the Repository
+
+Clone the repository to your local machine:
+
+```bash
+git clone https://github.com/Harsh2509/Sin-Tech.git
+```
+
+### 2. Navigate to the Repository
+
+Change your directory to the cloned repository:
+
+```bash
+cd Sin-Tech
+```
+
+### 3. Install All Dependencies
+
+You can install the required dependencies using one of the following package managers:
+
+```bash
+bun install
+#OR
+npm install
+#OR
+pnpm install
+#OR
+yarn install
+```
+
+### 4. Setting up environment
+
+Populate all the values in the environment variables in [.env.example](./.env.example).
+
+```bash
+mv .env.example .env
+```
+
+### 5. Run the application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+#OR
 bun dev
+#etc.
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -19,11 +60,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Cloudflare integration
 
 Besides the `dev` script mentioned above `c3` has added a few extra scripts that allow you to integrate the application with the [Cloudflare Pages](https://pages.cloudflare.com/) environment, these are:
-  - `pages:build` to build the application for Pages using the [`@cloudflare/next-on-pages`](https://github.com/cloudflare/next-on-pages) CLI
-  - `preview` to locally preview your Pages application using the [Wrangler](https://developers.cloudflare.com/workers/wrangler/) CLI
-  - `deploy` to deploy your Pages application using the [Wrangler](https://developers.cloudflare.com/workers/wrangler/) CLI
 
-> __Note:__ while the `dev` script is optimal for local development you should preview your Pages application as well (periodically or before deployments) in order to make sure that it can properly work in the Pages environment (for more details see the [`@cloudflare/next-on-pages` recommended workflow](https://github.com/cloudflare/next-on-pages/blob/main/internal-packages/next-dev/README.md#recommended-development-workflow))
+- `pages:build` to build the application for Pages using the [`@cloudflare/next-on-pages`](https://github.com/cloudflare/next-on-pages) CLI
+- `preview` to locally preview your Pages application using the [Wrangler](https://developers.cloudflare.com/workers/wrangler/) CLI
+- `deploy` to deploy your Pages application using the [Wrangler](https://developers.cloudflare.com/workers/wrangler/) CLI
+
+> **Note:** while the `dev` script is optimal for local development you should preview your Pages application as well (periodically or before deployments) in order to make sure that it can properly work in the Pages environment (for more details see the [`@cloudflare/next-on-pages` recommended workflow](https://github.com/cloudflare/next-on-pages/blob/main/internal-packages/next-dev/README.md#recommended-development-workflow))
 
 ### Bindings
 
@@ -35,13 +77,14 @@ You can use bindings during development, when previewing locally your applicatio
 
 - To use bindings in the preview mode you need to add them to the `pages:preview` script accordingly to the `wrangler pages dev` command. For more details see its [documentation](https://developers.cloudflare.com/workers/wrangler/commands/#dev-1) or the [Pages Bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/).
 
-- To use bindings in the deployed application you will need to configure them in the Cloudflare [dashboard](https://dash.cloudflare.com/). For more details see the  [Pages Bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/).
+- To use bindings in the deployed application you will need to configure them in the Cloudflare [dashboard](https://dash.cloudflare.com/). For more details see the [Pages Bindings documentation](https://developers.cloudflare.com/pages/functions/bindings/).
 
 #### KV Example
 
 `c3` has added for you an example showing how you can use a KV binding.
 
 In order to enable the example:
+
 - Search for javascript/typescript lines containing the following comment:
   ```ts
   // KV Example:
