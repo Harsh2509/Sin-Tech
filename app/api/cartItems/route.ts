@@ -23,13 +23,16 @@ export async function GET(req: NextRequest) {
     };
     const { email } = bodySchema.parse(params);
     const cartItems = await db
-      .select({ id: carts.productId })
+      .select({ id: carts.productId, quantity: carts.quantity })
       .from(users)
       .leftJoin(carts, eq(users.id, carts.userId))
       .where(eq(users.email, email));
 
-    const cartItemIds = cartItems.map((item) => item.id);
-    return new Response(JSON.stringify(cartItemIds));
+    const itemsWithQuantity = cartItems.map((item) => ({
+      id: item.id,
+      quantity: item.quantity,
+    }));
+    return new Response(JSON.stringify(itemsWithQuantity));
   } catch (e) {
     return new Response(
       "Error occuring at API endpoint: " + JSON.stringify(e),

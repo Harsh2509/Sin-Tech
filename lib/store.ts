@@ -1,3 +1,4 @@
+"use client";
 import { create } from "zustand";
 import { IProduct } from "./products";
 
@@ -6,29 +7,42 @@ type state = {
 };
 
 type actions = {
-  setQuantity: (qty: number, productId: number) => void;
+  setQuantity: (productId: number, quantity: number) => void;
   addItems: (product: (IProduct & { quantity: number })[]) => void;
+  deleteItem: (productId: number) => void;
 };
 
 const useStore = create<state & actions>((set) => ({
   cartItems: [],
-  setQuantity: (qty: number, productId: number) =>
+  setQuantity: (productId, quantity) =>
     set((state) => {
-      if (qty <= 0) {
-        return {
-          cartItems: state.cartItems.filter((item) => item.id !== productId),
-        };
+      if (quantity <= 0) {
+        return state;
       }
-      const updatedCartItems = state.cartItems.map((item) => {
-        return item.id === productId ? { ...item, quantity: qty } : item;
-      });
-      state.cartItems = updatedCartItems;
-      return state;
+      // Map through items and update quantity for the matching product
+      const updatedCartItems = state.cartItems.map((item) =>
+        item.id === productId ? { ...item, quantity } : item
+      );
+
+      // Return a new state object with updated cartItems
+      return {
+        cartItems: updatedCartItems,
+      };
     }),
   addItems: (products) => {
     set((state) => {
       state.cartItems = products;
       return state;
+    });
+  },
+  deleteItem: (productId) => {
+    set((state) => {
+      const updatedCartItems = state.cartItems.filter(
+        (item) => item.id !== productId
+      );
+      return {
+        cartItems: updatedCartItems,
+      };
     });
   },
 }));

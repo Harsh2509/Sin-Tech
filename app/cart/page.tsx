@@ -1,5 +1,6 @@
+export const runtime = "edge";
 import { auth, signIn } from "@/auth";
-import { CartItem } from "@/components/CartItem";
+import { CartItems } from "@/components/CartItems";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { createDb } from "@/db";
 import { carts, users } from "@/db/schema";
@@ -9,7 +10,6 @@ import { eq } from "drizzle-orm";
 import { Divide, ShoppingBagIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { BsGoogle } from "react-icons/bs";
-export const runtime = "edge";
 
 export default async function CartPage() {
   const DB = getRequestContext().env.DB;
@@ -60,7 +60,7 @@ export default async function CartPage() {
     if (!cart.length) {
       return <EmptyCartMessage />;
     }
-    return <CartItem cart={productz} />;
+    return <CartItems cart={productz} />;
   } catch (error) {
     console.error("Error fetching cart data:", error);
     return <div>Failed to load cart data. Please try again later.</div>;

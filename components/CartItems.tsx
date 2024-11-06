@@ -4,7 +4,7 @@ import { IProduct } from "../lib/products";
 import { useEffect } from "react";
 import useStore from "@/lib/store";
 
-export function CartItem({
+export function CartItems({
   cart,
 }: {
   cart: (IProduct & { quantity: number })[];
@@ -12,6 +12,7 @@ export function CartItem({
   const setQuantity = useStore((state) => state.setQuantity);
   const items = useStore((state) => state.cartItems);
   const addItems = useStore((state) => state.addItems);
+  const deleteItem = useStore((state) => state.deleteItem);
 
   useEffect(() => {
     addItems(cart);
@@ -55,19 +56,22 @@ export function CartItem({
                 ₹{item.price.toFixed(2)}
               </span>
 
-              <div className="flex md:block gap-7 ">
+              <div className="flex md:flex-col md:justify-center gap-7 md:gap-2">
                 <div className="flex items-center space-x-2">
                   <button
-                    // onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    onClick={() => {
+                      setQuantity(item.id, item.quantity - 1);
+                    }}
                     className="bg-gray-200 p-1 rounded-full hover:bg-gray-300 transition-colors"
                   >
                     <MinusIcon className="h-4 w-4" />
                   </button>
-                  <span className="px-3">{item.quantity}</span>
+                  <span className="px-3 min-w-11 text-center">
+                    {item.quantity}
+                  </span>
                   <button
                     onClick={() => {
                       setQuantity(item.id, item.quantity + 1);
-                      console.log(items);
                     }}
                     className="bg-gray-200 p-1 rounded-full hover:bg-gray-300 transition-colors"
                   >
@@ -76,8 +80,8 @@ export function CartItem({
                 </div>
                 {/* Delete Button */}
                 <button
-                  // onClick={() => removeFromCart(item.id)}
-                  className="text-white bg-red-400 hover:bg-red-600 p-1 rounded-xl my-1 transition-colors self-center md:self-auto md:mx-8"
+                  onClick={() => deleteItem(item.id)}
+                  className="text-white bg-red-400 hover:bg-red-600 p-1 rounded-xl transition-colors self-center  md:mx-8"
                 >
                   <TrashIcon className="h-5 w-5" />
                 </button>
@@ -86,6 +90,25 @@ export function CartItem({
           </li>
         ))}
       </ul>
+      <SaveButton className="my-10" items={items} />
+    </div>
+  );
+}
+
+function SaveButton({
+  className,
+  items,
+}: {
+  className: string;
+  items: (IProduct & {
+    quantity: number;
+  })[];
+}) {
+  return (
+    <div className={className}>
+      <button className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-md text-white font-light transition duration-200 ease-linear">
+        Save Changes
+      </button>
     </div>
   );
 }
