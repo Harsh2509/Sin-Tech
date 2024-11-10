@@ -14,6 +14,7 @@ type actions = {
 
 const useStore = create<state & actions>((set) => ({
   cartItems: [],
+
   setQuantity: (productId, quantity) =>
     set((state) => {
       if (quantity <= 0) {
@@ -29,12 +30,18 @@ const useStore = create<state & actions>((set) => ({
         cartItems: updatedCartItems,
       };
     }),
+
   addItems: (products) => {
-    set((state) => {
-      state.cartItems = products;
-      return state;
-    });
+    set((state) => ({
+      cartItems: [
+        ...state.cartItems,
+        ...products.filter(
+          (product) => !state.cartItems.some((item) => item.id === product.id)
+        ),
+      ],
+    }));
   },
+
   deleteItem: (productId) => {
     set((state) => {
       const updatedCartItems = state.cartItems.filter(

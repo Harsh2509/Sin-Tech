@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       .where(eq(users.email, email))
       .limit(1);
     if (user.length === 0) {
-      return;
+      return new Response("User not found", { status: 404 });
     }
     const userId = user[0].id;
     const cart = await db.insert(carts).values({ userId, productId });

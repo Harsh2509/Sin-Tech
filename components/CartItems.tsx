@@ -1,8 +1,9 @@
 "use client";
 import { MinusIcon, PlusIcon, TrashIcon } from "lucide-react";
 import { IProduct } from "../lib/products";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useStore from "@/lib/store";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export function CartItems({
   cart,
@@ -13,12 +14,19 @@ export function CartItems({
   const items = useStore((state) => state.cartItems);
   const addItems = useStore((state) => state.addItems);
   const deleteItem = useStore((state) => state.deleteItem);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    addItems(cart);
+    if (cart.length > 0) addItems(cart);
+    setIsLoading(false);
   }, [cart]);
 
-  useEffect(() => {});
+  console.log(isLoading);
+
+  if (isLoading)
+    return (
+      <LoadingSpinner className="w-screen h-[80vh] flex justify-center items-center" />
+    );
 
   return (
     <div className="container mx-auto p-4 md:p-6">
@@ -104,6 +112,8 @@ function SaveButton({
     quantity: number;
   })[];
 }) {
+  async function onClickHandler() {}
+
   return (
     <div className={className}>
       <button className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-md text-white font-light transition duration-200 ease-linear">

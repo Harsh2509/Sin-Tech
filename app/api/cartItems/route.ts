@@ -15,13 +15,19 @@ const bodySchema = z.object({
 export async function GET(req: NextRequest) {
   const DB = getRequestContext().env.DB;
   const db = createDb(DB);
-  const products = Products.getInstance();
-  const maxId = products.all().length;
   try {
     const params = {
       email: req.nextUrl.searchParams.get("email"),
     };
     const { email } = bodySchema.parse(params);
+    const user = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    if (user.length === 0) {
+      return new Response("User not found", { status: 404 });
+    }
     const cartItems = await db
       .select({ id: carts.productId, quantity: carts.quantity })
       .from(users)
