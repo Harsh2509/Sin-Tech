@@ -11,8 +11,8 @@
     "preview": "npm run pages:build && wrangler pages dev",
     "deploy": "npm run pages:build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
-    "migrate:local": "wrangler d1 execute sin-tech --local",
-    "migrate:production": "wrangler d1 execute sin-tech --remote",
+    "migrate:local": "wrangler d1 execute sin-tech --local --file ./db/migrations/0000_regular_layla_miller.sql",
+    "migrate:production": "wrangler d1 execute sin-tech --remote --file ./db/migrations/0000_regular_layla_miller.sql",
     "generate": "drizzle-kit generate"
   },
   "dependencies": {

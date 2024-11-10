@@ -46,7 +46,15 @@ Populate all the values in the environment variables in [.env.example](./.env.ex
 mv .env.example .env
 ```
 
-### 5. Run the application
+### 5. Migrating Schema to database
+
+We are using wrangler for structuring the database with our schema
+
+```bash
+bun run migrate:local
+```
+
+### 6. Run the application
 
 ```bash
 npm run dev
