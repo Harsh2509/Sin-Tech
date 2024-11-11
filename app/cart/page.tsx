@@ -60,7 +60,7 @@ export default async function CartPage() {
     if (!cart.length) {
       return <EmptyCartMessage />;
     }
-    return <CartItems cart={productz} />;
+    return <CartItems cart={productz} email={email} />;
   } catch (error) {
     console.error("Error fetching cart data:", error);
     return <div>Failed to load cart data. Please try again later.</div>;

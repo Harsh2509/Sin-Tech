@@ -62,7 +62,6 @@ export async function GET(req: NextRequest) {
   const maxId = products.all().length;
   try {
     // fetch email and productId from params
-    console.log(req.nextUrl.searchParams.get("productId"));
     const params = {
       email: req.nextUrl.searchParams.get("email"),
       productId: parseInt(req.nextUrl.searchParams.get("productId") as string),
@@ -116,7 +115,6 @@ export async function PUT(req: NextRequest) {
         .from(users)
         .where(eq(users.email, email))
         .limit(1);
-      console.log(`USER IS: ${JSON.stringify(user.length)}`);
       if (user.length === 0) {
         return new Response("User not found", { status: 404 });
       }
@@ -128,11 +126,10 @@ export async function PUT(req: NextRequest) {
     }
     return new Response(JSON.stringify(body));
   } catch (e: unknown) {
-    console.log(e);
+    console.error(e);
     return new Response(
       "Error occuring at API endpoint: " + JSON.stringify(e),
       { status: 400 }
     );
   }
-  return new Response("PUT request not implemented", { status: 501 });
 }

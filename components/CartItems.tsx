@@ -4,11 +4,14 @@ import { IProduct } from "../lib/products";
 import { useEffect, useState } from "react";
 import useStore from "@/lib/store";
 import { LoadingSpinner } from "./LoadingSpinner";
+import axios from "axios";
 
 export function CartItems({
   cart,
+  email,
 }: {
   cart: (IProduct & { quantity: number })[];
+  email: string;
 }) {
   const setQuantity = useStore((state) => state.setQuantity);
   const items = useStore((state) => state.cartItems);
@@ -20,8 +23,6 @@ export function CartItems({
     if (cart.length > 0) addItems(cart);
     setIsLoading(false);
   }, [cart]);
-
-  console.log(isLoading);
 
   if (isLoading)
     return (
@@ -98,7 +99,7 @@ export function CartItems({
           </li>
         ))}
       </ul>
-      <SaveButton className="my-10" items={items} />
+      <SaveButton className="my-10" items={items} email={email} />
     </div>
   );
 }
@@ -106,17 +107,35 @@ export function CartItems({
 function SaveButton({
   className,
   items,
+  email,
 }: {
   className: string;
   items: (IProduct & {
     quantity: number;
   })[];
+  email: string;
 }) {
-  async function onClickHandler() {}
-
+  async function onClickHandler() {
+    const reqBody = {
+      email,
+      items: items.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+      })),
+    };
+    const res = await axios.put("/api/cart", reqBody);
+    if (res.status === 200) {
+      alert("Cart updated successfully!");
+    } else {
+      alert("Failed to update cart. Please try again later.");
+    }
+  }
   return (
     <div className={className}>
-      <button className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-md text-white font-light transition duration-200 ease-linear">
+      <button
+        onClick={onClickHandler}
+        className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-md text-white font-light transition duration-200 ease-linear"
+      >
         Save Changes
       </button>
     </div>
