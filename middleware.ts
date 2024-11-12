@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
 export default auth((req) => {
-  if (!req.auth && req.nextUrl.pathname !== "/login") {
+  if (!req.auth && req.nextUrl.pathname !== "/api/auth/callback/google") {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
     });

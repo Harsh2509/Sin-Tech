@@ -69,7 +69,6 @@ export function AddToCartButton({
         {isLoading ? "Loading..." : isAdded ? "Added to Cart" : "Add to Cart"}
         {isLoading && <Spinner className="absolute z-10 top-1/3 h-4 w-4" />}
       </button>
-      <ToastContainer />
     </>
   );
 }

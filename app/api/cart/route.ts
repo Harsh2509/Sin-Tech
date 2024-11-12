@@ -133,3 +133,40 @@ export async function PUT(req: NextRequest) {
     );
   }
 }
+
+// This route removes a product from the cart.
+export async function DELETE(req: NextRequest) {
+  const DB = getRequestContext().env.DB;
+  const db = createDb(DB);
+  const products = Products.getInstance();
+  const maxId = products.all().length;
+  try {
+    const params = {
+      email: req.nextUrl.searchParams.get("email"),
+      productId: parseInt(req.nextUrl.searchParams.get("productId") as string),
+    };
+    const { email, productId } = postBodySchema.parse(params);
+    if (productId > maxId) {
+      throw new Error("Invalid product ID");
+    }
+    const user = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    if (user.length === 0) {
+      return new Response("User not found", { status: 404 });
+    }
+    const userId = user[0].id;
+    await db
+      .delete(carts)
+      .where(and(eq(carts.userId, userId), eq(carts.productId, productId)));
+    return new Response(JSON.stringify(params));
+  } catch (e: unknown) {
+    console.error(e);
+    return new Response(
+      "Error occuring at API endpoint: " + JSON.stringify(e),
+      { status: 400 }
+    );
+  }
+}

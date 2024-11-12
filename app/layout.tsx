@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { cn } from "@/lib/utils";
 import Head from "next/head";
+import { ToastContainer } from "react-toastify";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
@@ -105,6 +106,7 @@ export default function RootLayout({
         <body className={cn(poppins.className)}>
           <Navbar />
           {children}
+          <ToastContainer />
         </body>
       </html>
     </>

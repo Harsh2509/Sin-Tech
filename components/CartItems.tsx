@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import useStore from "@/lib/store";
 import { LoadingSpinner } from "./LoadingSpinner";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export function CartItems({
   cart,
@@ -23,6 +24,18 @@ export function CartItems({
     if (cart.length > 0) addItems(cart);
     setIsLoading(false);
   }, [cart]);
+
+  function deleteItemHandler(id: number) {
+    axios
+      .delete(`/api/cart`, { params: { email, productId: id } })
+      .then(() => {
+        deleteItem(id);
+        toast.success("Item removed successfully.");
+      })
+      .catch(() => {
+        toast.error("Failed to delete item. Please try again later.");
+      });
+  }
 
   if (isLoading)
     return (
@@ -89,7 +102,7 @@ export function CartItems({
                 </div>
                 {/* Delete Button */}
                 <button
-                  onClick={() => deleteItem(item.id)}
+                  onClick={() => deleteItemHandler(item.id)}
                   className="text-white bg-red-400 hover:bg-red-600 p-1 rounded-xl transition-colors self-center  md:mx-8"
                 >
                   <TrashIcon className="h-5 w-5" />
