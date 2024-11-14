@@ -6,25 +6,26 @@ import useStore from "@/lib/store";
 import { LoadingSpinner } from "./LoadingSpinner";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { sendPurchaseMailToUser } from "@/emails/purchaseMailToUser";
 
 export function CartItems({
   cart,
   email,
+  name,
 }: {
   cart: (IProduct & { quantity: number })[];
   email: string;
+  name: string;
 }) {
   const setQuantity = useStore((state) => state.setQuantity);
   const items = useStore((state) => state.cartItems);
   const addItems = useStore((state) => state.addItems);
   const deleteItem = useStore((state) => state.deleteItem);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   useEffect(() => {
     if (cart.length > 0) addItems(cart);
     setIsLoading(false);
   }, [cart]);
-
   function deleteItemHandler(id: number) {
     axios
       .delete(`/api/cart`, { params: { email, productId: id } })
@@ -36,12 +37,10 @@ export function CartItems({
         toast.error("Failed to delete item. Please try again later.");
       });
   }
-
   if (isLoading)
     return (
       <LoadingSpinner className="w-screen h-[80vh] flex justify-center items-center" />
     );
-
   return (
     <div className="container mx-auto p-4 md:p-6">
       <h1 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6">
@@ -77,7 +76,6 @@ export function CartItems({
               <span className="text-lg md:text-xl font-medium text-gray-800">
                 ₹{item.price.toFixed(2)}
               </span>
-
               <div className="flex md:flex-col md:justify-center gap-7 md:gap-2">
                 <div className="flex items-center space-x-2">
                   <button
@@ -113,6 +111,12 @@ export function CartItems({
         ))}
       </ul>
       <SaveButton className="my-10" items={items} email={email} />
+      <CheckoutButton
+        className="my-10"
+        items={items}
+        email={email}
+        name={name}
+      />
     </div>
   );
 }
@@ -150,6 +154,35 @@ function SaveButton({
         className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-md text-white font-light transition duration-200 ease-linear"
       >
         Save Changes
+      </button>
+    </div>
+  );
+}
+
+function CheckoutButton({
+  className,
+  items,
+  email,
+  name,
+}: {
+  className: string;
+  items: (IProduct & {
+    quantity: number;
+  })[];
+  email: string;
+  name: string;
+}) {
+  async function onClickHandler() {
+    sendPurchaseMailToUser(email, name);
+  }
+
+  return (
+    <div className={className}>
+      <button
+        onClick={onClickHandler}
+        className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-md text-white font-light transition duration-200 ease-linear"
+      >
+        Checkout
       </button>
     </div>
   );

@@ -24,6 +24,7 @@ export default async function CartPage() {
 
   // Ensure email exists before proceeding
   const email = session?.user?.email;
+  const name = session?.user?.name;
   if (!email) {
     return <div>Error: No email found.</div>;
   }
@@ -60,7 +61,7 @@ export default async function CartPage() {
     if (!cart.length) {
       return <EmptyCartMessage />;
     }
-    return <CartItems cart={productz} email={email} />;
+    return <CartItems cart={productz} email={email} name={name || "unknown"} />;
   } catch (error) {
     console.error("Error fetching cart data:", error);
     return <div>Failed to load cart data. Please try again later.</div>;
