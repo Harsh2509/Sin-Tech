@@ -7,6 +7,7 @@ import { LoadingSpinner } from "./LoadingSpinner";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { sendPurchaseMailToUser } from "@/emails/purchaseMailToUser";
+import { Checkout } from "./Checkout";
 
 export function CartItems({
   cart,
@@ -110,23 +111,20 @@ export function CartItems({
           </li>
         ))}
       </ul>
-      <SaveButton className="my-10" items={items} email={email} />
-      <CheckoutButton
-        className="my-10"
-        items={items}
-        email={email}
-        name={name}
-      />
+      <div className="flex gap-2 my-6">
+        <SaveButton items={items} email={email} />
+        <CheckoutButton name={name} email={email} items={items} />
+      </div>
     </div>
   );
 }
 
 function SaveButton({
-  className,
+  className = "",
   items,
   email,
 }: {
-  className: string;
+  className?: string;
   items: (IProduct & {
     quantity: number;
   })[];
@@ -160,12 +158,12 @@ function SaveButton({
 }
 
 function CheckoutButton({
-  className,
+  className = "",
   items,
   email,
   name,
 }: {
-  className: string;
+  className?: string;
   items: (IProduct & {
     quantity: number;
   })[];

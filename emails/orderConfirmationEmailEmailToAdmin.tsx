@@ -4,7 +4,10 @@ import OrderConfirmationEmailToAdmin from "./templates/OrderConfirmationEmailToA
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendPurchaseMailToUser = async (email: string, name: string) => {
+export const orderConfirmationEmailToAdmin = async (
+  email: string,
+  name: string
+) => {
   try {
     console.log(`Email received: ${email}`);
     await resend.emails.send({
