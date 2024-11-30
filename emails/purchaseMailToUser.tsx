@@ -8,7 +8,7 @@ export const sendPurchaseMailToUser = async (email: string, name: string) => {
   try {
     console.log(`Email received: ${email}`);
     await resend.emails.send({
-      from: "donotreply@sintechelectronic.com",
+      from: "donotreply@sintechelectronics.shop",
       to: email,
       subject: "Message for testing",
       react: (

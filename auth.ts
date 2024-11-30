@@ -12,7 +12,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const db = createDb(DB);
       if (account?.provider === "google") {
         try {
-          await db
+          const userr = await db
             .insert(users)
             .values({
               email: user.email as string,
@@ -26,6 +26,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 image: user.image,
               },
             });
+          console.log("User inserted:");
+          console.log(userr);
           return true;
         } catch (error) {
           console.error("Error inserting user:", error);

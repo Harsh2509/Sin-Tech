@@ -12,6 +12,7 @@ const bodySchema = z.object({
   email: z.string().email(),
 });
 
+// This function is used to get the cart items of a user.
 export async function GET(req: NextRequest) {
   const DB = getRequestContext().env.DB;
   const db = createDb(DB);
@@ -39,6 +40,33 @@ export async function GET(req: NextRequest) {
       quantity: item.quantity,
     }));
     return new Response(JSON.stringify(itemsWithQuantity));
+  } catch (e) {
+    return new Response(
+      "Error occuring at API endpoint: " + JSON.stringify(e),
+      { status: 400 }
+    );
+  }
+}
+
+// This function is used to empty the cart of a user.
+export async function DELETE(req: NextRequest) {
+  const DB = getRequestContext().env.DB;
+  const db = createDb(DB);
+  try {
+    const params = {
+      email: req.nextUrl.searchParams.get("email"),
+    };
+    const { email } = bodySchema.parse(params);
+    const user = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+    if (user.length === 0) {
+      return new Response("User not found", { status: 404 });
+    }
+    db.delete(carts).where(eq(carts.userId, user[0].id));
+    return new Response("Cart emptied successfully");
   } catch (e) {
     return new Response(
       "Error occuring at API endpoint: " + JSON.stringify(e),

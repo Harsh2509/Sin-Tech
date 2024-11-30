@@ -9,18 +9,17 @@ import {
   Text,
   Column,
   Row,
-  Link,
 } from "@react-email/components";
-import { text } from "stream/consumers";
 
 interface props {
   user: {
     email: string;
     name: string;
     phone: string;
+    address: string;
   };
   products: {
-    id: string;
+    id: number;
     title: string;
     quantity: number;
   }[];
@@ -31,10 +30,11 @@ const OrderConfirmationEmailToAdmin = ({
     email: "harsh@gmail.com",
     name: "Harsh",
     phone: "1001",
+    address: "123, xyz street",
   },
   products = [
-    { id: "1", title: "Product 1", quantity: 4 },
-    { id: "2", title: "Product 2", quantity: 2 },
+    { id: 1, title: "Product 1", quantity: 4 },
+    { id: 2, title: "Product 2", quantity: 2 },
   ],
 }: props) => {
   return (
@@ -68,6 +68,10 @@ const OrderConfirmationEmailToAdmin = ({
             </span>{" "}
             and phone number{" "}
             <span style={styles.userDetails}>{user.phone}</span>.
+          </Text>
+
+          <Text style={{ display: "inline-block", textAlign: "center" }}>
+            Address: <span style={styles.userDetails}>{user.address}</span>
           </Text>
 
           <hr />

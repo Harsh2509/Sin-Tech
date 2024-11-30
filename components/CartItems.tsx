@@ -6,8 +6,8 @@ import useStore from "@/lib/store";
 import { LoadingSpinner } from "./LoadingSpinner";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { sendPurchaseMailToUser } from "@/emails/purchaseMailToUser";
 import { Checkout } from "./Checkout";
+import { orderConfirmationEmailToAdmin } from "@/emails/orderConfirmationEmailEmailToAdmin";
 
 export function CartItems({
   cart,
@@ -113,7 +113,7 @@ export function CartItems({
       </ul>
       <div className="flex gap-2 my-6">
         <SaveButton items={items} email={email} />
-        <CheckoutButton name={name} email={email} items={items} />
+        <Checkout email={email} name={name} items={items} />
       </div>
     </div>
   );
@@ -157,7 +157,7 @@ function SaveButton({
   );
 }
 
-function CheckoutButton({
+function TestSendingEmail({
   className = "",
   items,
   email,
@@ -171,7 +171,13 @@ function CheckoutButton({
   name: string;
 }) {
   async function onClickHandler() {
-    sendPurchaseMailToUser(email, name);
+    orderConfirmationEmailToAdmin(
+      email,
+      name,
+      "8595807213",
+      "168/4, Sector-2, Rohini, New Delhi, Delhi-110085",
+      items
+    );
   }
 
   return (
