@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Sin-Tech Electronics",
-      url: "https://www.sintechelectronic.com",
+      url: "https://www.sintechelectronics.shop",
     },
   ],
   viewport: "width=device-width, initial-scale=1.0",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     description:
       "Explore affordable and reliable power solutions including UPS, inverters, solar panels, and batteries at Sin-Tech Electronics.",
     type: "website",
-    url: "https://www.sintechelectronic.com",
+    url: "https://www.sintechelectronics.shop",
     images: [
       {
         url: "/ogImage.png",

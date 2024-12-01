@@ -1,7 +1,8 @@
 import { auth, signIn } from "@/auth";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { Products } from "@/lib/products";
-import React, { ReactEventHandler } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import React from "react";
 
 export const runtime = "edge";
 
@@ -21,60 +22,78 @@ export default async function Page({ params }: { params: { id: string } }) {
   const session = await auth();
 
   return (
-    <div className="flex flex-col md:flex-row md:w-[50%] max-w-[80%]  mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-      {/* Product Image */}
-      <div className="w-full">
-        <img src={image} alt={alt} className="object-cover w-full h-full" />
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      <Card className="bg-white">
+        <CardContent className="p-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Product Image Section */}
+            <div className="relative h-96 lg:h-full overflow-hidden rounded-t-lg lg:rounded-l-lg lg:rounded-t-none">
+              <div className="absolute inset-0">
+                <img
+                  src={image}
+                  alt={alt}
+                  className="w-full h-full object-contain bg-gray-50"
+                />
+              </div>
+            </div>
 
-      {/* Product Details */}
-      <div className="p-6 md:w-1/2 flex flex-col">
-        {/* Category and Rating */}
-        <div className="flex justify-between items-center">
-          <span className="text-sm text-gray-600">{category}</span>
-          <div className="flex items-center">
-            <span className="text-yellow-400 text-lg mr-1">&#9733;</span>
-            <span className="text-gray-700">{rating.rate} / 5</span>
-            <span className="text-gray-500 ml-2">({rating.count} reviews)</span>
+            {/* Product Details Section */}
+            <div className="p-6 flex flex-col h-full">
+              <div className="flex justify-between items-start mb-4">
+                <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">
+                  {category}
+                </span>
+                <div className="flex items-center bg-gray-50 px-3 py-1 rounded-full">
+                  <span className="text-yellow-400 mr-1">★</span>
+                  <span className="text-gray-700 font-medium">
+                    {rating.rate}
+                  </span>
+                  <span className="text-gray-400 mx-1">/</span>
+                  <span className="text-gray-500">5</span>
+                  <span className="text-gray-400 ml-2">({rating.count})</span>
+                </div>
+              </div>
+
+              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-3">
+                {name}
+              </h1>
+
+              <p className="text-gray-600 mb-4 text-lg">{shortDescription}</p>
+
+              <div className="text-3xl font-bold text-green-600 mb-4">
+                ₹{price.toLocaleString()}
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                <p className="text-gray-700 leading-relaxed">{description}</p>
+              </div>
+
+              <div className="mt-auto">
+                {session ? (
+                  <AddToCartButton
+                    email={session.user?.email as string}
+                    productId={id}
+                  />
+                ) : (
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signIn("google");
+                    }}
+                  >
+                    <button
+                      type="submit"
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors duration-200"
+                    >
+                      Sign in to Add to Cart
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Product Name */}
-        <h1 className="text-2xl font-bold mt-2">{name}</h1>
-
-        {/* Short Description */}
-        <p className="text-gray-700 mt-2">{shortDescription}</p>
-
-        {/* Price */}
-        <div className="text-3xl font-semibold text-green-600 mt-4">
-          ₹{price}
-        </div>
-
-        {/* Long Description */}
-        <p className="text-gray-600 mt-4">{description}</p>
-
-        {/* Add to Cart Button */}
-        {session ? (
-          <AddToCartButton
-            email={session?.user?.email as string}
-            productId={id}
-          />
-        ) : (
-          <form
-            action={async () => {
-              "use server";
-              await signIn("google");
-            }}
-          >
-            <button
-              type="submit"
-              className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-md w-full"
-            >
-              Add to Cart
-            </button>
-          </form>
-        )}
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
