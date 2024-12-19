@@ -3,6 +3,7 @@ import { AddToCartButton } from "@/components/AddToCartButton";
 import { Products } from "@/lib/products";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
+import Link from "next/link";
 
 export const runtime = "edge";
 
@@ -23,6 +24,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Link
+        href="/products"
+        className="underline text-l md:text-xl hover:text-zinc-700 md:mb-4"
+      >
+        {"<- "} Go Back{" "}
+      </Link>
       <Card className="bg-white">
         <CardContent className="p-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -64,7 +71,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 ₹{price.toLocaleString()}
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <div className="bg-gray-50 rounded-lg p-2 mb-6 -mx-6">
                 <p className="text-gray-700 leading-relaxed">{description}</p>
               </div>
 

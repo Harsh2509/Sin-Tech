@@ -12,6 +12,7 @@ import { IProduct } from "@/lib/products";
 import axios from "axios";
 import { orderConfirmationEmailToAdmin } from "@/emails/orderConfirmationEmailEmailToAdmin";
 import { toast } from "react-toastify";
+import { Spinner } from "./Spinner";
 
 interface props {
   email: string;
@@ -25,12 +26,15 @@ export function Checkout({ email, name, items }: props) {
   const [modalToggle, setModalToggle] = useState(false); // This state variable is used for sending put request to update cart items before proceeding.
   const [phone, setPhone] = useState<string>("");
   const [address, setAddress] = useState<string>("");
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const checkout = () => {
+    setIsDisabled(true);
     orderConfirmationEmailToAdmin(email, name, phone, address, items).then(
       () => {
         toast.success("Order Placed Successfully");
         setModalToggle((prev) => !prev);
+        setIsDisabled(false);
       }
     );
   };
@@ -95,10 +99,13 @@ export function Checkout({ email, name, items }: props) {
         </ModalContent>
         <ModalFooter className="gap-4">
           <button
-            className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28"
+            className={`bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28 ${
+              isDisabled ? "cursor-not-allowed" : ""
+            }`}
             onClick={checkout}
+            disabled={isDisabled}
           >
-            Proceed
+            Checkout
           </button>
         </ModalFooter>
       </ModalBody>

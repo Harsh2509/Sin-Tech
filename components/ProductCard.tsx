@@ -5,27 +5,6 @@ import Link from "next/link";
 
 export default async function ProductCard({ product }: { product: IProduct }) {
   const session = await auth();
-  const handleAddToCart = async (event: React.FormEvent) => {
-    event.preventDefault();
-    ("use server");
-    try {
-      if (!session) {
-        throw new Error("User not authenticated");
-      }
-
-      const email = session.user?.email;
-      if (!email) {
-        throw new Error("User email not found");
-      }
-
-      const productId: number = product.id;
-
-      // POST request to add the product to the cart
-      await axios.post("/api/cart", { email, productId });
-    } catch (error) {
-      console.error("Error adding to cart:", error);
-    }
-  };
 
   return (
     <div className="max-w-xs sm:max-w-sm lg:max-w-md mx-auto my-6">
@@ -33,7 +12,7 @@ export default async function ProductCard({ product }: { product: IProduct }) {
         {product && (
           <>
             <img
-              className="w-full h-48 sm:h-64 md:h-72 object-cover"
+              className="w-full h-48 sm:h-64 md:h-72 object-contain"
               src={product.image}
               alt={product.name}
             />
